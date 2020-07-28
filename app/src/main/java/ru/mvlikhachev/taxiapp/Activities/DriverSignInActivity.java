@@ -3,6 +3,7 @@ package ru.mvlikhachev.taxiapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -148,10 +149,14 @@ public class DriverSignInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
+                                startActivity(new Intent(
+                                        DriverSignInActivity.this,
+                                        DriverMapsActivity.class
+                                ));
                                 //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Log.d(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 //updateUI(null);
@@ -176,10 +181,14 @@ public class DriverSignInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
+                                startActivity(new Intent(
+                                        DriverSignInActivity.this,
+                                        DriverMapsActivity.class
+                                ));
                                 //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Log.d(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 //updateUI(null);
