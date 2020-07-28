@@ -20,7 +20,9 @@ public class PassengerSignInActivity extends AppCompatActivity {
     private TextInputLayout textInputConfirmPassword;
 
     private Button loginSignUpButton;
-    private TextView toggleLogInTextView;
+    private TextView toggleLoginSignUpTextView;
+
+    private boolean isLoginModeActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,9 @@ public class PassengerSignInActivity extends AppCompatActivity {
         textInputConfirmPassword = findViewById(R.id.textInputConfirmPassword);
 
         loginSignUpButton = findViewById(R.id.loginSignUpButton);
-        toggleLogInTextView = findViewById(R.id.toggleLoginSignUpTextView);
+        toggleLoginSignUpTextView = findViewById(R.id.toggleLoginSignUpTextView);
+
+        authorizationUi();
     }
 
     private boolean validateEmail() {
@@ -113,6 +117,25 @@ public class PassengerSignInActivity extends AppCompatActivity {
     }
 
     public void toggleLoginSignUp(View view) {
+        if (isLoginModeActive) {
+            registarionUi();
+        } else {
+            authorizationUi();
+        }
+    }
 
+    private void registarionUi() {
+        isLoginModeActive = false;
+        loginSignUpButton.setText("Зарегистрироваться");
+        toggleLoginSignUpTextView.setText("Или авторизуйтесь");
+        textInputConfirmPassword.setVisibility(View.VISIBLE);
+        textInputName.setVisibility(View.VISIBLE);
+    }
+    private void authorizationUi() {
+        isLoginModeActive = true;
+        loginSignUpButton.setText("Войти");
+        toggleLoginSignUpTextView.setText("Или зарегистрируйтесь");
+        textInputConfirmPassword.setVisibility(View.GONE);
+        textInputName.setVisibility(View.GONE);
     }
 }
