@@ -8,6 +8,17 @@
     android:padding="16dp"
     tools:context=".Activities.DriverSignInActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Вход для водителя"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:textSize="30sp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmail"
         app:errorEnabled="true"
@@ -74,7 +85,7 @@
         android:id="@+id/loginSignUpButton"
         android:onClick="loginSignUpUser"
         android:text="Sign Up"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="150dp"
         android:background="@color/colorAccent"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp" />

@@ -1,4 +1,4 @@
-package ru.mvlikhachev.texiapp;
+package ru.mvlikhachev.taxiapp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("ru.mvlikhachev.texiapp", appContext.getPackageName());
+        assertEquals("ru.mvlikhachev.taxiapp", appContext.getPackageName());
     }
 }

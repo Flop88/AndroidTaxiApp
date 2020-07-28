@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.mvlikhachev.texiapp">
+    package="ru.mvlikhachev.taxiapp">
 
     <application
         android:allowBackup="true"
@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.DriverSignInActivity"></activity>
-        <activity android:name=".Activities.PassengerSignInActivity" />
-        <activity android:name=".Activities.ChooseModeActivity" />
-        <activity android:name=".Activities.SplashScreenActivity">
+        <activity android:name="ru.mvlikhachev.taxiapp.Activities.DriverSignInActivity"></activity>
+        <activity android:name="ru.mvlikhachev.taxiapp.Activities.PassengerSignInActivity" />
+        <activity android:name="ru.mvlikhachev.taxiapp.Activities.ChooseModeActivity" />
+        <activity android:name="ru.mvlikhachev.taxiapp.Activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

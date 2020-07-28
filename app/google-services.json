@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:886852930120:android:9b391f1bc37987ebeca67d",
         "android_client_info": {
-          "package_name": "ru.mvlikhachev.texiapp"
+          "package_name": "ru.mvlikhachev.taxiapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "886852930120-vluqm7cpkultcckv0edsb655hh98eugn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ru.mvlikhachev.texiapp",
+            "package_name": "ru.mvlikhachev.taxiapp",
             "certificate_hash": "84488f1e5bad17827f76795680302581b367b4e6"
           }
         },

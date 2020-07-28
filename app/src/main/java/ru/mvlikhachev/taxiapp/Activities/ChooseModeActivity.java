@@ -1,4 +1,4 @@
-package ru.mvlikhachev.texiapp.Activities;
+package ru.mvlikhachev.taxiapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import ru.mvlikhachev.texiapp.R;
+import ru.mvlikhachev.taxiapp.R;
 
 public class ChooseModeActivity extends AppCompatActivity {
 

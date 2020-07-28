@@ -1,4 +1,4 @@
-package ru.mvlikhachev.texiapp;
+package ru.mvlikhachev.taxiapp;
 
 import org.junit.Test;
 

@@ -1,11 +1,11 @@
-package ru.mvlikhachev.texiapp.Activities;
+package ru.mvlikhachev.taxiapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ru.mvlikhachev.texiapp.R;
+import ru.mvlikhachev.taxiapp.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

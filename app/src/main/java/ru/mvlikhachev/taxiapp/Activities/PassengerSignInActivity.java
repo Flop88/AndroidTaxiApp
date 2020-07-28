@@ -1,4 +1,4 @@
-package ru.mvlikhachev.texiapp.Activities;
+package ru.mvlikhachev.taxiapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import ru.mvlikhachev.texiapp.R;
+import ru.mvlikhachev.taxiapp.R;
 
-public class DriverSignInActivity extends AppCompatActivity {
+public class PassengerSignInActivity extends AppCompatActivity {
 
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputName;
@@ -24,7 +25,7 @@ public class DriverSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_sign_in);
+        setContentView(R.layout.activity_passenger_sign_in);
 
         textInputEmail = findViewById(R.id.textInputEmail);
         textInputName = findViewById(R.id.textInputName);
@@ -33,7 +34,6 @@ public class DriverSignInActivity extends AppCompatActivity {
 
         loginSignUpButton = findViewById(R.id.loginSignUpButton);
         toggleLogInTextView = findViewById(R.id.toggleLoginSignUpTextView);
-
     }
 
     private boolean validateEmail() {
@@ -101,6 +101,14 @@ public class DriverSignInActivity extends AppCompatActivity {
     }
 
     public void loginSignUpUser(View view) {
+
+        if (!validateEmail() | !validateName() | !validatePassword()) {
+            return;
+        }
+
+        String userInput = "Авторизация прошла успешно!";
+
+        Toast.makeText(this, userInput, Toast.LENGTH_SHORT).show();
 
     }
 
