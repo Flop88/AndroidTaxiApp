@@ -1,18 +1,27 @@
 package ru.mvlikhachev.taxiapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import ru.mvlikhachev.taxiapp.R;
 
 public class DriverSignInActivity extends AppCompatActivity {
+
+    public static final String TAG = "DriverSignInActivity";
 
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputName;
@@ -23,6 +32,8 @@ public class DriverSignInActivity extends AppCompatActivity {
     private TextView toggleLoginSignUpTextView;
 
     private boolean isLoginModeActive;
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,8 @@ public class DriverSignInActivity extends AppCompatActivity {
         toggleLoginSignUpTextView = findViewById(R.id.toggleLoginSignUpTextView);
 
         authorizationUi();
+
+        auth = FirebaseAuth.getInstance();
 
     }
 
@@ -84,11 +97,6 @@ public class DriverSignInActivity extends AppCompatActivity {
                 .getText()
                 .toString()
                 .trim();
-        String confirmPasswordInput = textInputConfirmPassword
-                .getEditText()
-                .getText()
-                .toString()
-                .trim();
 
         if (passwordInput.isEmpty()) {
             textInputPassword.setError("Введите Ваше имя!");
@@ -96,7 +104,26 @@ public class DriverSignInActivity extends AppCompatActivity {
         } else if (passwordInput.length() > 7) {
             textInputPassword.setError("Пароль должно быть меньше 7 символов!");
             return false;
-        } else if (!passwordInput.equals(confirmPasswordInput)) {
+        }  else {
+            textInputPassword.setError("");
+            return true;
+        }
+    }
+
+    private boolean validateConfirmPassword() {
+
+        String passwordInput = textInputPassword
+                .getEditText()
+                .getText()
+                .toString()
+                .trim();
+        String confirmPasswordInput = textInputConfirmPassword
+                .getEditText()
+                .getText()
+                .toString()
+                .trim();
+
+        if (!passwordInput.equals(confirmPasswordInput)) {
             textInputPassword.setError("Пароли должны совпадать");
             return false;
         } else {
@@ -110,10 +137,58 @@ public class DriverSignInActivity extends AppCompatActivity {
         if (!validateEmail() | !validateName() | !validatePassword()) {
             return;
         }
+        if (isLoginModeActive) { // Authorization
+            auth.signInWithEmailAndPassword(
+                    textInputEmail.getEditText().getText().toString().trim(),
+                    textInputPassword.getEditText().getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = auth.getCurrentUser();
+                                //updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                                // ...
+                            }
 
-        String userInput = "Авторизация прошла успешно!";
+                            // ...
+                        }
+                    });
+        } else { // Registration
+            if (!validateEmail() | !validateName() | !validatePassword() | !validateConfirmPassword()) {
+                return;
+            }
+            auth.createUserWithEmailAndPassword(
+                    textInputEmail.getEditText().getText().toString().trim(),
+                    textInputPassword.getEditText().getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
-        Toast.makeText(this, userInput, Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = auth.getCurrentUser();
+                                //updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                            }
+
+                            // ...
+                        }
+                    });
+        }
 
     }
 
