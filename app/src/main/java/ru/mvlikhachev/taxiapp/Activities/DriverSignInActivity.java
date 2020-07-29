@@ -153,17 +153,12 @@ public class DriverSignInActivity extends AppCompatActivity {
                                         DriverSignInActivity.this,
                                         DriverMapsActivity.class
                                 ));
-                                //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.d(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
-                                // ...
                             }
-
-                            // ...
                         }
                     });
         } else { // Registration
@@ -185,16 +180,12 @@ public class DriverSignInActivity extends AppCompatActivity {
                                         DriverSignInActivity.this,
                                         DriverMapsActivity.class
                                 ));
-                                //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.d(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(DriverSignInActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
                             }
-
-                            // ...
                         }
                     });
         }
