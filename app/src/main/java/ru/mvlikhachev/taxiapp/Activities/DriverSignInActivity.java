@@ -135,7 +135,7 @@ public class DriverSignInActivity extends AppCompatActivity {
 
     public void loginSignUpUser(View view) {
 
-        if (!validateEmail() | !validateName() | !validatePassword()) {
+        if (!validateEmail() | !validatePassword()) {
             return;
         }
         if (isLoginModeActive) { // Authorization
