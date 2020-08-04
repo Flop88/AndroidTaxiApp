@@ -79,7 +79,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
 
-    DatabaseReference drivers;
+    DatabaseReference driversGeoFire;
 
     private int searchRadius = 1;
 
@@ -103,10 +103,10 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         signoutButton = findViewById(R.id.signoutButton);
         bookTaxiButton = findViewById(R.id.bookTaxiButton);
 
-        drivers = FirebaseDatabase
+        driversGeoFire = FirebaseDatabase
                 .getInstance()
                 .getReference()
-                .child("drivers");
+                .child("driversGeoFire");
 
         signoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +140,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
     private void gettingNearestTaxi() {
 
-        GeoFire geoFire = new GeoFire(drivers);
+        GeoFire geoFire = new GeoFire(driversGeoFire);
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(currentLocation.getLatitude(),
                 currentLocation.getLongitude()), searchRadius);
 
@@ -184,7 +184,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         String passengerUserId = currentUser.getUid(); // Driver ID
         DatabaseReference passengers = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("passengers");
+                .child("passengers"); // <-------- ?
 
         GeoFire geoFire = new GeoFire(passengers);
         geoFire.removeLocation(passengerUserId);
@@ -352,9 +352,17 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
             mMap.addMarker(new MarkerOptions().position(passengerLocation).title("Passenger Location"));
 
             String passengerUserId = currentUser.getUid(); // Driver ID
-            DatabaseReference passengers = FirebaseDatabase.getInstance().getReference().child("passengers");
+            DatabaseReference passengersGeoFire = FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("passengersGeoFire");
 
-            GeoFire geoFire = new GeoFire(passengers);
+            DatabaseReference passengers = FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("passengers");
+
+            passengers.setValue(true);
+
+            GeoFire geoFire = new GeoFire(passengersGeoFire);
             geoFire.setLocation(passengerUserId, new GeoLocation(currentLocation.getLatitude(),
                     currentLocation.getLongitude()), new GeoFire.CompletionListener() {
                 @Override
