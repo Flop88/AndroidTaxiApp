@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -70,16 +72,25 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
     private boolean isLocationUpdatesActive;
 
-    Button settingsButton;
-    Button signoutButton;
+    private Button settingsButton;
+    private Button signoutButton;
+    private Button bookTaxiButton;
 
-    FirebaseAuth auth;
-    FirebaseUser currentUser;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+
+    DatabaseReference drivers;
+
+    private int searchRadius = 1;
+
+    private boolean isDriverFound = false;
+
+    private String nearestDriverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_maps);
+        setContentView(R.layout.activity_passenger_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -90,12 +101,28 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
         settingsButton = findViewById(R.id.settingsButton);
         signoutButton = findViewById(R.id.signoutButton);
+        bookTaxiButton = findViewById(R.id.bookTaxiButton);
+
+        drivers = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child("drivers");
 
         signoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 auth.signOut();
                 signOutPassenger();
+            }
+        });
+
+        bookTaxiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookTaxiButton.setText("Получение ближайших машин...");
+
+                gettingNearestTaxi();
+
             }
         });
 
@@ -109,6 +136,47 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         buildLocationSettingsRequest();
 
         startLocationUpdates();
+    }
+
+    private void gettingNearestTaxi() {
+
+        GeoFire geoFire = new GeoFire(drivers);
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(currentLocation.getLatitude(),
+                currentLocation.getLongitude()), searchRadius);
+
+        geoQuery.removeAllListeners();
+
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+
+                if (!isDriverFound) {
+                    isDriverFound = true;
+                    nearestDriverId = key;
+                }
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                if (!isDriverFound) {
+                    searchRadius++;
+                    gettingNearestTaxi();
+                }
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+            }
+        });
+
     }
 
     private void signOutPassenger() {
